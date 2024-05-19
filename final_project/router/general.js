@@ -21,17 +21,17 @@ public_users.post('/register', (req, res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/', async function (req, res) {
-  //Write your code here
-  const booksList = await new Promise((resolve) => {
-    resolve(JSON.stringify(books, 2, null));
-  });
+public_users.get('/', async (req, res) => {
+  try {
+    const booksList = await new Promise((resolve) => {
+      resolve(JSON.stringify(books, null, 2));
+    });
 
-  res.status(200).json(booksList);
-
-  return res.status(300).json({ message: 'Yet to be implemented' });
+    res.status(200).json(booksList);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving book list' });
+  }
 });
-
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', async function (req, res) {
   //Write your code here
